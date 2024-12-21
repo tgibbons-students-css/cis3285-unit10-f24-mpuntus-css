@@ -34,7 +34,10 @@ namespace SingleResponsibilityPrinciple
             //ITradeDataProvider fileProvider = new StreamTradeDataProvider(tradeStream, logger);
             ITradeDataProvider urlProvider = new URLTradeDataProvider(tradeURL, logger);
             //ITradeDataProvider restfulProvider = new RestfulTradeDataProvider(restfulURL, logger);
-            ITradeDataProvider adjustedProvider = new AdjustTradeDataProvider(urlProvider);
+            //ITradeDataProvider adjustedProvider = new AdjustTradeDataProvider(urlProvider);
+            ITradeDataProvider adjustedAsyncProvider = new URLAsyncProvider(urlProvider);
+
+
 
             ITradeMapper tradeMapper = new SimpleTradeMapper();
             ITradeParser tradeParser = new SimpleTradeParser(tradeValidator, tradeMapper);
@@ -42,7 +45,8 @@ namespace SingleResponsibilityPrinciple
 
             //TradeProcessor tradeProcessor = new TradeProcessor(fileProvider, tradeParser, tradeStorage);
             //TradeProcessor tradeProcessor = new TradeProcessor(urlProvider, tradeParser, tradeStorage);
-            TradeProcessor tradeProcessor = new TradeProcessor(adjustedProvider, tradeParser, tradeStorage);
+            //TradeProcessor tradeProcessor = new TradeProcessor(adjustedProvider, tradeParser, tradeStorage);
+            TradeProcessor tradeProcessor = new TradeProcessor(adjustedAsyncProvider, tradeParser, tradeStorage);
 
 
 
