@@ -8,7 +8,7 @@ namespace SingleResponsibilityPrinciple
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             ILogger logger = new ConsoleLogger();
             // Open up the local textfile as a stream
@@ -50,7 +50,7 @@ namespace SingleResponsibilityPrinciple
 
 
 
-            tradeProcessor.ProcessTrades();
+            tradeProcessor.ProcessTradesAsync();
 
             //Console.ReadKey();
 

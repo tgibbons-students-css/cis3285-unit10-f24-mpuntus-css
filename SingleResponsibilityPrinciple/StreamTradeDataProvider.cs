@@ -13,6 +13,7 @@ namespace SingleResponsibilityPrinciple
             this.logger = logger;
         }
 
+        /*
         public IEnumerable<string> GetTradeData()
         {
             var tradeData = new List<string>();
@@ -26,6 +27,22 @@ namespace SingleResponsibilityPrinciple
                 }
             }
             return tradeData;
+        }
+        */
+
+        public Task<IEnumerable<string>> GetTradeDataAsync()
+        {
+            var tradeData = new List<string>();
+            logger.LogInfo("Reading trades from file stream.");
+            using (var reader = new StreamReader(stream))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    tradeData.Add(line);
+                }
+            }
+            return Task.FromResult<IEnumerable<string>>(tradeData);
         }
 
         private readonly Stream stream;

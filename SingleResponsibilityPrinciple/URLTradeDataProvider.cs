@@ -17,6 +17,7 @@ namespace SingleResponsibilityPrinciple
             this.logger = logger;
         }
 
+        /*
         public IEnumerable<string> GetTradeData()
         {
             List<string> tradeData = new List<string>();
@@ -43,5 +44,36 @@ namespace SingleResponsibilityPrinciple
             }
             return tradeData;
         }
+        */
+
+
+        public async Task<IEnumerable<string>> GetTradeDataAsync()
+        {
+            List<string> tradeData = new List<string>();
+            logger.LogInfo("Reading trades from URL: " + url);
+
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(url);
+                if (!response.IsSuccessStatusCode)
+                {
+                    logger.LogWarning($"Failed to retrieve data. Status code: {response.StatusCode}");
+                    throw new Exception($"Error retrieving data from URL: {url}");
+                }
+
+                using (Stream stream = await response.Content.ReadAsStreamAsync())
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        tradeData.Add(line);
+                    }
+                    return tradeData;
+                }
+            }
+        }
+
+
     }
 }

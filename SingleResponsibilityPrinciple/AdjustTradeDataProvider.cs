@@ -17,12 +17,27 @@ namespace SingleResponsibilityPrinciple
 
 
 
-        public IEnumerable<string> GetTradeData()
+        //public IEnumerable<string> GetTradeData()
+        //{
+        //    //throw new NotImplementedException();
+
+        //    IEnumerable<string> lines = originalProvider.GetTradeDataAsync();
+
+        //    List<string> result = new List<string>();
+
+        //    foreach (string line in lines)
+        //    {
+        //        string newLine = line.Replace("GBP", "EUR");
+        //        result.Add(newLine);
+        //    }
+        //    return lines;
+        //}
+
+        public async Task<IEnumerable<string>> GetTradeDataAsync()
         {
-            //throw new NotImplementedException();
+            IEnumerable<string> lines = await originalProvider.GetTradeDataAsync();
 
-            IEnumerable<string> lines = originalProvider.GetTradeData();
-
+            // Adjust the trade data as needed
             List<string> result = new List<string>();
 
             foreach (string line in lines)
@@ -30,7 +45,8 @@ namespace SingleResponsibilityPrinciple
                 string newLine = line.Replace("GBP", "EUR");
                 result.Add(newLine);
             }
-            return lines;
+
+            return result;
         }
     }
 }

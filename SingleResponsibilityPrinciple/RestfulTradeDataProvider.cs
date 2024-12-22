@@ -20,6 +20,7 @@ namespace SingleResponsibilityPrinciple
             this.logger = logger;
         }
 
+        /*
         async Task<List<string>> GetTradeAsync()
         {
             logger.LogInfo("Connecting to the Restful server using HTTP");
@@ -43,6 +44,21 @@ namespace SingleResponsibilityPrinciple
 
             List<string> tradeList = task.Result;
             return tradeList;
+        }
+        */
+        public async Task<IEnumerable<string>> GetTradeDataAsync()
+        {
+            logger.LogInfo("Connecting to the Restful server using HTTP");
+            HttpResponseMessage response = await client.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<List<string>>(content);
+            }
+
+            logger.LogWarning("Failed to fetch trade data.");
+            return new List<string>(); 
         }
     }
 }
